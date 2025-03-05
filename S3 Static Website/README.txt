@@ -1,47 +1,71 @@
-# Periodic Table Static Website Deployment on AWS S3
+Periodic Table Static Website Deployment on AWS S3
 
 This project demonstrates how to deploy a simple static website displaying the periodic table using Amazon S3's static website hosting feature.
 
-## Prerequisites
+Prerequisites
+
 Before proceeding with the steps, ensure you have the following:
-- An AWS account
-- AWS S3 bucket creation permissions
-- Basic knowledge of HTML and CSS
 
-## Deployment Steps
+An AWS account
 
-### 1. Create an S3 Bucket
-1. Log in to your [AWS Management Console](https://aws.amazon.com/console/).
-2. Navigate to the **S3** service.
-3. Click **Create bucket**.
-4. Provide a unique bucket name (e.g., `periodictable1807`).
-5. Select the appropriate AWS region.
-6. Uncheck **Block all public access** (since the website must be publicly accessible).
-7. Click **Create bucket**.
+AWS S3 bucket creation permissions
 
-### 2. Develop the Static Website Locally
-1. Create an `index.html` file containing the HTML structure of the periodic table.
-2. Create a `style.css` file to style the periodic table.
-3. Ensure all necessary assets (images, scripts, etc.) are included in the project directory.
+Basic knowledge of HTML and CSS
 
-### 3. Upload Files to the S3 Bucket
-1. Navigate to the **S3** bucket you created.
-2. Click the **Upload** button.
-3. Select all website files (`index.html`, `style.css`, and other necessary assets).
-4. Click **Upload**.
+Deployment Steps
 
-### 4. Configure Static Website Hosting
-1. Open the **Properties** tab of your S3 bucket.
-2. Scroll down to **Static website hosting** and click **Edit**.
-3. Enable **Static website hosting**.
-4. Set the **Index document** to `index.html`.
-5. Click **Save changes**.
+1. Create an S3 Bucket
 
-### 5. Set Permissions for Public Access
-1. Open the **Permissions** tab.
-2. Click **Bucket Policy** and add the following policy:
+Log in to your AWS Management Console.
 
-```json
+Navigate to the S3 service.
+
+Click Create bucket.
+
+Provide a unique bucket name (e.g., periodictable1807).
+
+Select the appropriate AWS region.
+
+Uncheck Block all public access (since the website must be publicly accessible).
+
+Click Create bucket.
+
+2. Develop the Static Website Locally
+
+Create an index.html file containing the HTML structure of the periodic table.
+
+Create a style.css file to style the periodic table.
+
+Ensure all necessary assets (images, scripts, etc.) are included in the project directory.
+
+3. Upload Files to the S3 Bucket
+
+Navigate to the S3 bucket you created.
+
+Click the Upload button.
+
+Select all website files (index.html, style.css, and other necessary assets).
+
+Click Upload.
+
+4. Configure Static Website Hosting
+
+Open the Properties tab of your S3 bucket.
+
+Scroll down to Static website hosting and click Edit.
+
+Enable Static website hosting.
+
+Set the Index document to index.html.
+
+Click Save changes.
+
+5. Set Permissions for Public Access
+
+Open the Permissions tab.
+
+Click Bucket Policy and add the following policy:
+
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -53,16 +77,17 @@ Before proceeding with the steps, ensure you have the following:
     }
   ]
 }
-```
 
-3. Click **Save changes**.
+Click Save changes.
 
-### 6. Access the Deployed Website
-1. In the **Properties** tab, scroll to **Static website hosting**.
-2. Copy the **Bucket website endpoint**.
-3. Open the link in a browser to view your deployed periodic table website.
+6. Access the Deployed Website
 
-## Conclusion
+In the Properties tab, scroll to Static website hosting.
+
+Copy the Bucket website endpoint.
+
+Open the link in a browser to view your deployed periodic table website.
+
+Conclusion
+
 You have successfully deployed a static periodic table website on AWS S3 using static website hosting. This setup allows users to access the website globally via the provided bucket endpoint.
-
-
