@@ -1,4 +1,4 @@
-#Periodic Table Static Website Deployment on AWS S3
+Periodic Table Static Website Deployment on AWS S3
 
 This project demonstrates how to deploy a simple static website displaying the periodic table using Amazon S3's static website hosting feature.
 
