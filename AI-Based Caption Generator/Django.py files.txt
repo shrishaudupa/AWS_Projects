@@ -1,0 +1,64 @@
+b. Create a Script to Load the Model
+In the Django app (e.g., captioning), create a Python script, say model_loader.py, to load the saved model and processor:
+
+python
+Copy
+Edit
+# captioning/model_loader.py
+from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
+import torch
+from PIL import Image
+
+# Load the saved model and processor
+MODEL_PATH = './saved_model'
+model = VisionEncoderDecoderModel.from_pretrained(MODEL_PATH)
+feature_extractor = ViTImageProcessor.from_pretrained(MODEL_PATH)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+
+# Set up device (GPU or CPU)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+def generate_caption(image_path):
+    # Open and process the image
+    image = Image.open(image_path).convert("RGB")
+    pixel_values = feature_extractor(images=image, return_tensors="pt").pixel_values.to(device)
+
+    # Generate caption
+    model.eval()
+    with torch.no_grad():
+        output_ids = model.generate(pixel_values, max_length=20, num_beams=5)
+
+    # Decode and return the caption
+    caption = tokenizer.decode(output_ids[0], skip_special_tokens=True)
+    return caption
+c. Create a Django View for Image Captioning
+Create a Django view that uses the generate_caption function to generate captions for uploaded images.
+
+python
+Copy
+Edit
+# captioning/views.py
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .model_loader import generate_caption
+
+@csrf_exempt  # Disable CSRF for testing (only for local use)
+def caption_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        # Get the uploaded image
+        image = request.FILES['image']
+        
+        # Save the image temporarily
+        image_path = 'temp_image.jpg'
+        with open(image_path, 'wb') as f:
+            for chunk in image.chunks():
+                f.write(chunk)
+        
+        # Generate caption
+        caption = generate_caption(image_path)
+        
+        # Return the caption as a response
+        return JsonResponse({"caption": caption})
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
